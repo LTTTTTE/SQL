@@ -1,0 +1,126 @@
+
+<!-- saved from url=(0033)http://cs.ks.ac.kr/db/hw/hw2.html -->
+<html class="gr__cs_ks_ac_kr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+SQL HW #2
+</title>
+
+<style type="text/css">
+<!--
+A:link, A:visited, A:active {text-decoration: none; font-weight: bold}
+-->
+</style>
+
+<script language="JavaScript">
+function setStatus(msg){
+          status=msg
+}
+</script>
+
+</head>
+
+<body text="#400080" link="#0000C0" vlink="#004000" data-gr-c-s-loaded="true">
+<center>
+<font color="#400080" size="+2"> <b>SQL HW #2</b> </font>
+<br>
+<br>
+<img width="250" height="12" src="./SQL HW #2_files/purple_line.gif">
+</center>
+<br>
+
+<table border="0" align="center" cellpadding="5" cellspacing="4" width="85%">
+
+<tbody><tr> <td align="center" bgcolor="#ffffc0"> HW #2
+</td><td bgcolor="#c0ffff" colspan="2"> 
+<table align="center" border="0" cellpadding="5" cellspacing="4">
+<tbody><tr bgcolor="#c0c0ff"> 
+<td align="left">
+
+<ul>
+<li>
+<a href="http://cs.ks.ac.kr/db/movie_db.html">
+<font color="blue"><tt><b>Movie DB</b></tt>
+</font></a>에 대해서 아래의 query를 <font color="blue"><tt><b>SQL</b></tt>
+</font> 문장으로 작성하고 결과를 나타내시오.
+
+</li><li>
+<b>제출 기한 : 
+	<font color="red">6월 3일(월) 당일  자정</font> </b>
+
+</li><li> 각 질의는 하나의 SQL 문장으로만 작성하고 번호.sql로 문제당 하나의 파일에
+저장한다.  
+
+</li><li> 메일 제목은 <b>SQL HW#2</b>로 첨부파일명은 <b>학번.zip</b>으로 하고 
+반드시 메일당 하나의 과제물만 포함한다.
+
+</li><li> 아래 지문에서 제작자는 영화를 제작한 적이 있는 자이며
+영화배우는 MovieStar 테이블의 모든 사람에 해당한다.
+영화에 출연한 적이 있는 배우이면 StarsIn 테이블과 JOIN이 되어야 한다.
+</li></ul>
+
+</td></tr>
+
+<tr> <td>
+<ol>
+<li> 각 영화사 별 평균 상영시간, 처음으로 제작한 영화의 상영년도, 
+제작 영화 수 등을 제작 영화 수의 역순으로 검색하여라.
+</li><li> 3편 이상(&gt;= 3)의 영화에 출연한 배우들 중에서 영화사 사장인 배우의
+이름과 재산을 찾아라.
+<a href="http://cs.ks.ac.kr/db/hw/result/1_13.jpg">[수행결과]</a>
+</li><li> 가장 수입이 많은 제작자(영화를 제작한 적이 있는 
+영화임원둘중에서)와 가장 수입이 적은 영화사 사장(영화사 사장인 
+영화임원들중에서)이 함께 만든 영화들의 제목과 상영년도는 ? 
+<font color="red"><b>[검색결과] <font color="blue">(mighty ducks, 1991)</font></b><font color="blue">
+</font></font>
+</li><li> 영화사 사장이면서 배우이기도 한 제작자는 ? 
+<b>[검색결과 : alfred molina, robert redford]</b>
+</li><li> 영화 Sting에 출연하지 않은 여자 배우들의 이름을 어린 배우 순으로
+검색하여라 
+<a href="http://cs.ks.ac.kr/db/hw/result/2_5.jpg">[수행결과]</a>
+</li><li> <em><font color="#ff00c0">Danny DeVito</font></em> 보다 젊은
+여자 배우가 출연한 각 영화들중에서 가장 긴 상영시간을 가지는
+영화의 제목과 상영년도를 영화 제목 순으로 검색하여라.
+<font color="red"><b>(각 여자배우가 출연한 영화들 중에서 긴 상영시간을 
+가지는 영화를 각각 구해야 한다.)</b></font>
+<br><a href="http://cs.ks.ac.kr/db/hw/result/hw2_6.jpg"> <font color="blue"><b>[수행 결과]</b></font></a>
+</li><li> 같은 주소에 사는 배우들이 함께 출연한 영화들의 평균 상영시간과
+가장 최근에 출연한 영화의 상영년도는 ? <a href="http://cs.ks.ac.kr/db/hw/result/hw2_3.html">
+[수행 결과]</a> <font color="#fb0000"> <b>
+(같은 주소에 사는 배우들이 출연한 모든 영화에 대해서 구해야 한다. 
+따라서, 주소 단위의 결과를 필요로 한다. 또한, 같은 영화에 
+두 배우가 함께 출연하는 경우 각각 서로 다른 영화로 취급한다.)</b></font>
+</li><li> 가장 나이가 많은 배우가 출연한 영화들중에서 가장 상영 시간이 긴 영화는 ?
+<font color="blue"><b>[검색결과] gone with the wind</b></font>
+</li><li> 각 영화사의 영화들을 만든 제작자들의 평균 수입이 
+<font color="#ff00c0">1,000,000</font> 이상인
+영화사 이름과 제작자들의 수는 ? 
+<font color="#fb0000"> <b>
+(Fox 영화사에서 George Lucas라는 제작자가 여러
+영화의 제작에 참여하는 경우 George Lucas의 netWorth 값은
+평균에서 한번만 고려되어야 하고, 따라서 Fox 영화사의 제작자 수는
+George Lucas를 하나로 counting을 해야 한다.)</b></font>
+<font color="blue"><b><a href="http://cs.ks.ac.kr/~shhong/db/hw/result/2_9.jpg">
+[수행 결과]</a></b></font>
+</li><li> 영화 배우이면서 제작자인 사람들의 평균 수입은 ?
+<font color="#fb0000"> <b>
+(영화 배우는 실제로 영화에 출연한 적이 있어야 하며,
+제작자 역시 실제로 영화 제작에 참여한 적이 있어야 한다.
+<font color="blue"><b>[검색결과] 23810000</b></font>
+</b></font></li><li><font color="#fb0000"><b> 상영 시간이 같은 영화들의 수와 각 상영 시간을
+상영 시간의 역순으로 검색하여라.
+<a href="http://cs.ks.ac.kr/~shhong/db/hw/result/hw2_11.jpg">[수행 결과]</a>
+</b></font></li><li><font color="#fb0000"><b> <em><font color="#ff00c0">Harrison Ford</font></em>가 출연한 
+영화의 수와 평균 상영 시간은 ?
+<font color="blue"><b>
+[검색결과] (5, 120.2)
+</b></font>
+</b></font></li></ol><font color="#fb0000"><b>
+</b></font></td></tr>
+</tbody></table>
+</td></tr>
+
+
+</tbody></table>
+
+
+
+</body></html>
