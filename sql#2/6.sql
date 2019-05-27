@@ -12,4 +12,4 @@ where StarsIn.movieTitle = Movie.title and StarsIn.movieYear = Movie.year and St
                                                                                                    )
 group by StarsIn.starName
 )
-order by 1;
+order by lower(Movie.title);
