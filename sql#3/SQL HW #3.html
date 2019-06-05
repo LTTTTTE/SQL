@@ -1,0 +1,157 @@
+
+<!-- saved from url=(0033)http://cs.ks.ac.kr/db/hw/hw3.html -->
+<html class="gr__cs_ks_ac_kr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+SQL HW #3
+</title>
+
+<style type="text/css">
+<!--
+A:link, A:visited, A:active {text-decoration: none; font-weight: bold}
+-->
+</style>
+
+<script language="JavaScript">
+function setStatus(msg){
+          status=msg
+}
+</script>
+
+</head><body bgcolor="white" text="#400080" link="#0000C0" vlink="#004000" data-gr-c-s-loaded="true">
+<center>
+<font color="#400080" size="+2"> <b>SQL HW #3</b> </font>
+<br>
+<br>
+<img width="200" height="12" src="./SQL HW #3_files/purple_line.gif">
+</center>
+<br>
+
+<table width="90%" border="0" cellpadding="10" cellspacing="3" align="center">
+
+<tbody><tr bgcolor="#ffc0ff"> <th> HW #3 </th><td algin="left">  
+<ol>
+<li>
+기존의 <a target="_blank" href="http://cs.ks.ac.kr/db/movie_db.html"><font color="blue"><tt><b>Movie DB</b></tt>
+</font></a>에 대해서 다음의 사항들을 추가하여 새로운 Movie DB를
+만들어라. Movie DB의 테이블들, 관련 제약들, 튜플 삽입문들이
+포함된 <a href="http://cs.ks.ac.kr/db/download/MovieDB.sql">
+MovieDB.sql</a> 파일을 수정하여 학번.zip으로 묶어서 첨부 파일로 보낸다.
+</li><li>
+1.에서 생성한 Movie DB에 대해서 아래의 query들을 SQL로 작성하여라. 
+각 질의당 하나의 sql 파일로 작성한다. 반드시 파일명은 번호.sql의 형태로
+한다.  (반드시 한 개 이상의 결과가 나오도록 데이타를 삽입할 것)
+</li><li> 제출 기한 : <font color="red"><b>6월 16일 당일 자정</b></font>까지
+</li></ol>
+
+<blockquote>
+<ul>
+<li> 기존에 MovieDB에 저장된 튜플들과 같은 튜플이 있어서는 안되고 본인이
+직접 튜플 데이터를 입력해야 한다.
+</li><li> 삽입될 튜플들의 내용은 어느 정도 의미가 있어야 한다. 예를 들어,
+주소 항목인데 "가나다라"로, 영화사 이름에 "ABCD"와 같이 성의 없는
+튜플 데이터는 감점 대상이 된다.
+</li><li> 삽입될 튜플들의 내용이 다른 학생의 튜플 들과 일정 비율 이상 같은 경우 
+복사한 것으로 간주하여 감점 또는 영점 처리한다.
+</li><li> <b><font color="purple">
+최종적으로 본인의 계정 공간에 테이블과 튜플들이 저장되어 있어야 한다.
+</font></b>
+
+</li></ul></blockquote></td></tr>
+
+<tr bgcolor="#c0c0ff"> <td align="center"> <font color="#c00000">
+<b>추가할 사항들</b></font> 
+</td><td> 
+
+<ol type="I">
+<li>
+<tt><b>Movie table</b></tt>에 영화의 감독에 대한 번호를 의미하는 
+<tt><b>directorNo</b></tt>와 
+음향 효과를 담당하는 studio name인 <tt><b>SoundStudio</b></tt>를 추가하라.
+<tt><b>directorNo</b></tt>는 
+<tt><b>MovieExec table의 </b></tt><tt><b>certNo</b></tt>로 나타나야
+한다. 또한, <tt><b>SoundStudio</b></tt> 역시 Studio
+table에 나타나야 한다. 즉, 이 두 애트리뷰트에는 foreign key 제약이 존재한다.
+</li><li>
+<tt><b>StarsIn table</b></tt>에 각 배우가 영화에 출연할 때 계약한 개런티를
+나타내는 <tt><b>Gurantee</b></tt>를 추가하라. 그리고, 이 액수는
+최소한 10000 이상이 되어야 한다는 제약을 추가하라.
+</li><li> 
+<tt><b>MovieStar table</b></tt>과 <tt><b>MovieExec table</b></tt>에 
+각각 배우자의 이름을 나타내는 <tt><b>spouseName</b></tt>를 추가하라.
+<tt><b>MovieExec table</b></tt>의 <tt><b>spouseName</b></tt>은 
+<tt><b>MovieStar table</b></tt>의 name을 참조하게 하고, 
+또한 <tt><b>MovieStar table</b></tt>의 
+<tt><b>spouseName</b></tt>은 <tt><b>MovieExec table</b></tt>의 
+name을 참조하게 한다.
+또한, <tt><b>MovieExec table</b></tt>에는 제작자의 생년월일을 의미하는
+<tt><b>birthdate</b></tt>와 제작자의 성별을 나타내는 
+<tt><b>gender</b></tt>(MovieStar table의 그것과 동일한..)를 추가하라.
+</li><li>
+<tt><b>Studio table</b></tt>에 영화사에 근무하는 직원의 수를 
+의미하는 <tt><b>empNo</b></tt>를 추가하라.
+</li><li>
+만화 영화에 대한 새로운 table인 <tt><b>Cartoon</b></tt>을 생성하라.
+필요한 애트리뷰트는 만화 영화의 제목과 상영 년도를 의미하는 
+<tt><b>title</b></tt>과 <tt><b>year</b></tt>,
+그리고, 만화 영화에 목소리를 담당하는 사람의 이름을 의미하는 
+<tt><b>Voice</b></tt>등이다.
+<tt><b>Cartoon</b></tt>는 Movie table의 subclass로서 저장된 
+(<tt><b>title</b></tt>, <tt><b>year</b></tt>)는 
+모두 Movie table에 존재해야 한다.
+즉, <tt><b>Cartoon </b></tt>(<tt><b>title</b></tt>, 
+<tt><b>year</b></tt>)는 Movie table의 (<tt><b>title</b></tt>, 
+<tt><b>year</b></tt>)에 대해서 foreign key 역할을 한다.
+또한, <tt><b>Voice</b></tt>는 배우이며, 물론 하나의 만화 영화에
+여러명의 <tt><b>Voice</b></tt>가 나타날 수 있다.
+</li></ol>
+
+</td></tr><tr bgcolor="#c0c0ff"> <td align="center"> <font color="#c00000">
+<b>Query</b></font> 
+</td><td> 
+
+<ol>
+<li>
+<em>"Star Wars"</em>의 감독은 ?
+</li><li>
+가장 재산이 많은 감독, 가장 재산이 적은 영화사 사장, 가장 재산이
+적은 제작자가 함께 만든 영화의 제목과 상영년도는 ?
+<font color="blue"><b>(최소한 2개의 서로 다른 튜플이 검색되도록 데이터를 삽입해야 한다)</b></font>
+</li><li>
+각 영화 감독이 만든 영화의 수와 평균 상영 시간은 ?
+<font color="blue"><b>(각 영화 감독이 최소한 3개의 영화가 검색되도록 데이터를 삽입해야 한다)</b></font>
+</li><li>
+남편은 제작자이고 부인은 배우인 부부들은 ?
+<font color="blue"><b>(최소한 3개의 서로 다른 튜플이 검색되도록 데이터를 삽입해야 한다)</b></font>
+</li><li>
+만화 영화 <em>"Little Mermaid"</em>의 목소리를 담당한 사람들은 ?
+<font color="blue"><b>(최소한 5개의 서로 다른 튜플이 검색되도록 데이터를 삽입해야 한다)</b></font>
+</li><li>
+서로 생년월일이 같은 배우와 제작자들은 ?
+<font color="blue"><b>(최소한 5명이 생년월일이 같도록 데이터를 삽입해야 한다)</b></font>
+</li><li> 
+'Fox' 영화사의 각 영화에 출연한 배우들의 평균 개런티 액수와 영화이름은 ?
+<font color="blue"><b>(최소한 3개의 영화와 각 영화에 3명의 배우가 검색되도록 데이터를 삽입해야 한다)</b></font>
+</li><li> 
+영화감독의 배우자가 배우로 출연한 영화와 이 영화의 감독 및 이 감독의
+배우자 이름은 ?
+<font color="blue"><b>(최소한 5개의 서로 다른 튜플이 검색되도록 데이터를 삽입해야 한다)</b></font>
+</li><li>
+가장 많은 개런티를 받은 배우가 출연한 영화중에서 처음으로 출연한 영화와 
+가장 상영시간이 길었던 영화의 제목과 상영년도는 ?
+</li><li>
+음향 효과를 담당하는 각 영화사들의 이름, 직원수와 해당 영화사 사장의 이름 
+및 주소는 ?
+<font color="blue"><b>(최소한 3개의 서로 다른 튜플이 검색되도록 데이터를 삽입해야 한다)</b></font>
+</li></ol>
+</td></tr>
+
+</tbody></table>
+<blockquote>
+
+
+
+
+<br>
+
+
+
+</blockquote></body></html>
