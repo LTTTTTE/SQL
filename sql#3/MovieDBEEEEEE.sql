@@ -1,20 +1,21 @@
 
 drop table StarsIn CASCADE CONSTRAINTS PURGE;
 drop table MovieStar CASCADE CONSTRAINTS PURGE;
+drop table Cartoon CASCADE CONSTRAINTS PURGE;
 drop table Movie CASCADE CONSTRAINTS PURGE;
 drop table Studio CASCADE CONSTRAINTS PURGE;
 drop table MovieExec CASCADE CONSTRAINTS PURGE;
 --방갑다 디비야
 -- 너도 방갑다d
-  CREATE TABLE "MOVIEEXEC" 
-   (	"NAME" VARCHAR2(30),
-	"ADDRESS" VARCHAR2(255), 
-	"CERTNO" NUMBER(*,0), 
-	"NETWORTH" NUMBER(*,0),
-	"SPOUSENAME" varchar2(30),
-    "BIRTHDATE" DATE,
-    "GENDER" CHAR(6)
-   )
+CREATE TABLE "MOVIEEXEC"
+(	"NAME" VARCHAR2(30),
+     "ADDRESS" VARCHAR2(255),
+     "CERTNO" NUMBER(*,0),
+     "NETWORTH" NUMBER(*,0),
+     "SPOUSENAME" varchar2(30),
+     "BIRTHDATE" DATE,
+     "GENDER" CHAR(6)
+)
 /
 --------------------------------------------------------
 --  DDL for Table MOVIESTAR
@@ -31,33 +32,33 @@ CREATE TABLE "MOVIESTAR"
 --  DDL for Index SYS_C00233212
 --------------------------------------------------------
 
-  CREATE UNIQUE INDEX "SYS_C00233212" ON "MOVIEEXEC" ("CERTNO")
+CREATE UNIQUE INDEX "SYS_C00233212" ON "MOVIEEXEC" ("CERTNO")
 /
 --------------------------------------------------------
 --  Constraints for Table MOVIEEXEC
 --------------------------------------------------------
 
-  ALTER TABLE "MOVIEEXEC" ADD PRIMARY KEY ("CERTNO") ENABLE
+ALTER TABLE "MOVIEEXEC" ADD PRIMARY KEY ("CERTNO") ENABLE
 /
-  ALTER TABLE "MOVIEEXEC" ADD CONSTRAINT "SEX_CHK2" CHECK (gender in ('male', 'female'))
+ALTER TABLE "MOVIEEXEC" ADD CONSTRAINT "SEX_CHK2" CHECK (gender in ('male', 'female'))
 /
-  ALTER TABLE "MOVIEEXEC" ADD UNIQUE ("NAME") ENABLE
+ALTER TABLE "MOVIEEXEC" ADD UNIQUE ("NAME") ENABLE
 /
 
 --------------------------------------------------------
 --  DDL for Index SYS_C00233216
 --------------------------------------------------------
 
-  CREATE UNIQUE INDEX "SYS_C00233216" ON "MOVIESTAR" ("NAME")
+CREATE UNIQUE INDEX "SYS_C00233216" ON "MOVIESTAR" ("NAME")
 /
 --------------------------------------------------------
 --  Constraints for Table MOVIESTAR
 --------------------------------------------------------
 
-  ALTER TABLE "MOVIESTAR" ADD CONSTRAINT "SEX_CHK" CHECK (gender in ('male', 'female'))
-  /
- 
-  ALTER TABLE "MOVIESTAR" ADD PRIMARY KEY ("NAME")
+ALTER TABLE "MOVIESTAR" ADD CONSTRAINT "SEX_CHK" CHECK (gender in ('male', 'female'))
+/
+
+ALTER TABLE "MOVIESTAR" ADD PRIMARY KEY ("NAME")
 /
 --------------------------------------------------------
 --  Ref Constraints for Table MOVIEEXEC
@@ -78,113 +79,113 @@ ALTER TABLE "MOVIESTAR" ADD FOREIGN KEY ("SPOUSENAME")
 --  DDL for Table STUDIO
 --------------------------------------------------------
 
-  CREATE TABLE "STUDIO" 
-   (	"NAME" VARCHAR2(30), 
-	"ADDRESS" VARCHAR2(255), 
-	"PRESNO" NUMBER(*,0),
-	"EMPNO" NUMBER(*,0)
-   )
+CREATE TABLE "STUDIO"
+(	"NAME" VARCHAR2(30),
+     "ADDRESS" VARCHAR2(255),
+     "PRESNO" NUMBER(*,0),
+     "EMPNO" NUMBER(*,0)
+)
 /
 --------------------------------------------------------
 --  DDL for Index SYS_C00233213
 --------------------------------------------------------
 
-  CREATE UNIQUE INDEX "SYS_C00233213" ON "STUDIO" ("NAME");
+CREATE UNIQUE INDEX "SYS_C00233213" ON "STUDIO" ("NAME");
 /
 --------------------------------------------------------
 --  Constraints for Table STUDIO
 --------------------------------------------------------
 
-  ALTER TABLE "STUDIO" ADD PRIMARY KEY ("NAME") ENABLE
+ALTER TABLE "STUDIO" ADD PRIMARY KEY ("NAME") ENABLE
 /
 --------------------------------------------------------
 --  Ref Constraints for Table STUDIO
 --------------------------------------------------------
 
-  ALTER TABLE "STUDIO" ADD FOREIGN KEY ("PRESNO")
-	  REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
+ALTER TABLE "STUDIO" ADD FOREIGN KEY ("PRESNO")
+    REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
 /
 
 --------------------------------------------------------
 --  DDL for Table MOVIE
 --------------------------------------------------------
 
-  CREATE TABLE "MOVIE" 
-   (	"TITLE" VARCHAR2(255), 
-	"YEAR" NUMBER(*,0), 
-	"LENGTH" NUMBER(*,0), 
-	"INCOLOR" CHAR(1), 
-	"STUDIONAME" VARCHAR2(30), 
-	"PRODUCERNO" NUMBER(*,0),
-	"DIRECTORNO" NUMBER(*,0),
-	"SOUNDSTUDIO" VARCHAR2(30)
-   )
+CREATE TABLE "MOVIE"
+(	"TITLE" VARCHAR2(255),
+     "YEAR" NUMBER(*,0),
+     "LENGTH" NUMBER(*,0),
+     "INCOLOR" CHAR(1),
+     "STUDIONAME" VARCHAR2(30),
+     "PRODUCERNO" NUMBER(*,0),
+     "DIRECTORNO" NUMBER(*,0),
+     "SOUNDSTUDIO" VARCHAR2(30)
+)
 /
 --------------------------------------------------------
 --  DDL for Index SYS_C00233218
 --------------------------------------------------------
 
-  CREATE UNIQUE INDEX "SYS_C00233218" ON "MOVIE" ("TITLE", "YEAR")
+CREATE UNIQUE INDEX "SYS_C00233218" ON "MOVIE" ("TITLE", "YEAR")
 /
 --------------------------------------------------------
 --  Constraints for Table MOVIE
 --------------------------------------------------------
 
-  ALTER TABLE "MOVIE" ADD CONSTRAINT "MOV_CHK" CHECK (length > 50 and year > 1900 and year <= 2019) ENABLE
- /
-  ALTER TABLE "MOVIE" ADD PRIMARY KEY ("TITLE", "YEAR") ENABLE
+ALTER TABLE "MOVIE" ADD CONSTRAINT "MOV_CHK" CHECK (length > 50 and year > 1900 and year <= 2019) ENABLE
+/
+ALTER TABLE "MOVIE" ADD PRIMARY KEY ("TITLE", "YEAR") ENABLE
 /
 --------------------------------------------------------
 --  Ref Constraints for Table MOVIE
 --------------------------------------------------------
 
-  ALTER TABLE "MOVIE" ADD FOREIGN KEY ("PRODUCERNO")
-	  REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
- /
-  ALTER TABLE "MOVIE" ADD FOREIGN KEY ("STUDIONAME")
-	  REFERENCES "STUDIO" ("NAME") ON DELETE CASCADE ENABLE
+ALTER TABLE "MOVIE" ADD FOREIGN KEY ("PRODUCERNO")
+    REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
 /
-  ALTER TABLE "MOVIE" ADD FOREIGN KEY ("DIRECTORNO")
-      REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
+ALTER TABLE "MOVIE" ADD FOREIGN KEY ("STUDIONAME")
+    REFERENCES "STUDIO" ("NAME") ON DELETE CASCADE ENABLE
 /
-  ALTER TABLE "MOVIE" ADD FOREIGN KEY ("SOUNDSTUDIO")
-      REFERENCES "STUDIO" ("NAME") ON DELETE CASCADE ENABLE
+ALTER TABLE "MOVIE" ADD FOREIGN KEY ("DIRECTORNO")
+    REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
+/
+ALTER TABLE "MOVIE" ADD FOREIGN KEY ("SOUNDSTUDIO")
+    REFERENCES "STUDIO" ("NAME") ON DELETE CASCADE ENABLE
 /
 
 --------------------------------------------------------
 --  DDL for Table STARSIN
 --------------------------------------------------------
 
-  CREATE TABLE "STARSIN" 
-   (	"MOVIETITLE" VARCHAR2(255), 
-	"MOVIEYEAR" NUMBER(*,0), 
-	"STARNAME" VARCHAR2(30),
-	"GURANTEE" NUMBER(*,0)
-   )
+CREATE TABLE "STARSIN"
+(	"MOVIETITLE" VARCHAR2(255),
+     "MOVIEYEAR" NUMBER(*,0),
+     "STARNAME" VARCHAR2(30),
+     "GURANTEE" NUMBER(*,0)
+)
 /
 --------------------------------------------------------
 --  DDL for Index SYS_C00233221
 --------------------------------------------------------
 
-  CREATE UNIQUE INDEX "SYS_C00233221" ON "STARSIN" ("MOVIETITLE", "MOVIEYEAR", "STARNAME")
+CREATE UNIQUE INDEX "SYS_C00233221" ON "STARSIN" ("MOVIETITLE", "MOVIEYEAR", "STARNAME")
 /
 --------------------------------------------------------
 --  Constraints for Table STARSIN
 --------------------------------------------------------
 
-  ALTER TABLE "STARSIN" ADD PRIMARY KEY ("MOVIETITLE", "MOVIEYEAR", "STARNAME") ENABLE
+ALTER TABLE "STARSIN" ADD PRIMARY KEY ("MOVIETITLE", "MOVIEYEAR", "STARNAME") ENABLE
 /
-  ALTER TABLE "STARSIN" ADD CONSTRAINT "GUR_CHECK" CHECK (GURANTEE >= 10000) ENABLE
+ALTER TABLE "STARSIN" ADD CONSTRAINT "GUR_CHECK" CHECK (GURANTEE >= 10000) ENABLE
 /
 --------------------------------------------------------
 --  Ref Constraints for Table STARSIN
 --------------------------------------------------------
 
-  ALTER TABLE "STARSIN" ADD FOREIGN KEY ("MOVIETITLE", "MOVIEYEAR")
-	  REFERENCES "MOVIE" ("TITLE", "YEAR") ON DELETE CASCADE ENABLE
- /
-  ALTER TABLE "STARSIN" ADD FOREIGN KEY ("STARNAME")
-	  REFERENCES "MOVIESTAR" ("NAME") ON DELETE CASCADE ENABLE
+ALTER TABLE "STARSIN" ADD FOREIGN KEY ("MOVIETITLE", "MOVIEYEAR")
+    REFERENCES "MOVIE" ("TITLE", "YEAR") ON DELETE CASCADE ENABLE
+/
+ALTER TABLE "STARSIN" ADD FOREIGN KEY ("STARNAME")
+    REFERENCES "MOVIESTAR" ("NAME") ON DELETE CASCADE ENABLE
 /
 
 CREATE TABLE "CARTOON"
@@ -193,6 +194,7 @@ CREATE TABLE "CARTOON"
      "VOICE" VARCHAR2(30)
 )
 /
+
 ALTER TABLE "CARTOON" ADD FOREIGN KEY ("TITLE" , "YEAR")
     REFERENCES "MOVIE" ("TITLE" , "YEAR") ON DELETE CASCADE ENABLE
 /
