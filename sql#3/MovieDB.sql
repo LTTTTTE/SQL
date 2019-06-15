@@ -1,63 +1,244 @@
 
-drop table StarsIn;
-drop table MovieStar;
-drop table Movie;
-drop table Studio;
-drop table MovieExec;
---방갑다 디비야
--- 너도 방갑다
-  CREATE TABLE "MOVIEEXEC" 
-   (	"NAME" VARCHAR2(30), 
-	"ADDRESS" VARCHAR2(255), 
-	"CERTNO" NUMBER(*,0), 
-	"NETWORTH" NUMBER(*,0),
-	"SPOUSENAME" varchar2(30),
-    "BIRTHDATE" DATE,
-    "GENDER" CHAR(6)
-   )
+drop table StarsIn CASCADE CONSTRAINTS PURGE;
+drop table MovieStar CASCADE CONSTRAINTS PURGE;
+drop table Cartoon CASCADE CONSTRAINTS PURGE;
+drop table Movie CASCADE CONSTRAINTS PURGE;
+drop table Studio CASCADE CONSTRAINTS PURGE;
+drop table MovieExec CASCADE CONSTRAINTS PURGE;
+
+CREATE TABLE "MOVIEEXEC"
+(	"NAME" VARCHAR2(30),
+     "ADDRESS" VARCHAR2(255),
+     "CERTNO" NUMBER(*,0),
+     "NETWORTH" NUMBER(*,0),
+     "SPOUSENAME" varchar2(30),
+     "BIRTHDATE" DATE,
+     "GENDER" CHAR(6)
+)
 /
-REM INSERTING into MOVIEEXEC
-SET DEFINE OFF;
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('sharky','hollywood',1,1000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('walt disney','california',2,258000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('harry conick jr.','hollywood',3,12000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('seok hee hong','daeyun-dong nam-gu, pusan',4,158000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('john picolo','washington',5,248000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('malcom mac','seattle',6,258000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('fernando buttanda','canada',7,342001);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('john alan simon','chicago, illnois',8,258000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('george lucas','modesto, california',9,4300020);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('ian bryce','hollywood',10,5400020);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('robert redford','santa monica, california',11,92100000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('mike meyers','malibu, california',12,2000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('james l. brooks','north bergen, new jersey',13,3000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('dan kolsrud','trollhuset, norway',14,4000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('danny devito','neptune nj',15,500000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('alfred molina','london, england, uk',16,640000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('merv griffin','san mateo, california',17,3000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('jack smith','santa babara, california',18,368000000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('smile kang','neptune newyork',19,12340000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('albert t. viola','stone ridge mall rd., california',20,340000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('clark gable','cadiz, ohio',21,1234560);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('michael mann','buzz, florida, USA',22,9231234560);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('rechard jung','banff, new york, usa',23,20000060);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('seok hee park','caemroon, texas, usa',24,560000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('steven spielberg','Cincinnati, Ohio, USA',25,823160000);
-Insert into MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH) values ('victoria alonso','500 S. Buena Vista Street, Burbank, California, USA',26,128923000);
+--------------------------------------------------------
+--  DDL for Table MOVIESTAR
+--------------------------------------------------------
+CREATE TABLE "MOVIESTAR"
+(	"NAME" VARCHAR2(30),
+     "ADDRESS" VARCHAR2(255),
+     "GENDER" CHAR(6),
+     "BIRTHDATE" DATE,
+     "SPOUSENAME" VARCHAR2(30)
+)
+/
 --------------------------------------------------------
 --  DDL for Index SYS_C00233212
 --------------------------------------------------------
 
-  CREATE UNIQUE INDEX "SYS_C00233212" ON "MOVIEEXEC" ("CERTNO")
+CREATE UNIQUE INDEX "SYS_C00233212" ON "MOVIEEXEC" ("CERTNO")
 /
 --------------------------------------------------------
 --  Constraints for Table MOVIEEXEC
 --------------------------------------------------------
 
-  ALTER TABLE "MOVIEEXEC" ADD PRIMARY KEY ("CERTNO") ENABLE
+ALTER TABLE "MOVIEEXEC" ADD PRIMARY KEY ("CERTNO") ENABLE
 /
-  ALTER TABLE "MOVIEEXEC" ADD CONSTRAINT "SEX_CHK" CHECK (gender in ('male', 'female'))
+ALTER TABLE "MOVIEEXEC" ADD CONSTRAINT "SEX_CHK2" CHECK (gender in ('male', 'female'))
 /
+ALTER TABLE "MOVIEEXEC" ADD UNIQUE ("NAME") ENABLE
+/
+
+--------------------------------------------------------
+--  DDL for Index SYS_C00233216
+--------------------------------------------------------
+
+CREATE UNIQUE INDEX "SYS_C00233216" ON "MOVIESTAR" ("NAME")
+/
+--------------------------------------------------------
+--  Constraints for Table MOVIESTAR
+--------------------------------------------------------
+
+ALTER TABLE "MOVIESTAR" ADD CONSTRAINT "SEX_CHK" CHECK (gender in ('male', 'female'))
+/
+
+ALTER TABLE "MOVIESTAR" ADD PRIMARY KEY ("NAME")
+/
+
+
+--------------------------------------------------------
+--  DDL for Table STUDIO
+--------------------------------------------------------
+
+CREATE TABLE "STUDIO"
+(	"NAME" VARCHAR2(30),
+     "ADDRESS" VARCHAR2(255),
+     "PRESNO" NUMBER(*,0),
+     "EMPNO" NUMBER(*,0)
+)
+/
+--------------------------------------------------------
+--  DDL for Index SYS_C00233213
+--------------------------------------------------------
+
+CREATE UNIQUE INDEX "SYS_C00233213" ON "STUDIO" ("NAME");
+/
+--------------------------------------------------------
+--  Constraints for Table STUDIO
+--------------------------------------------------------
+
+ALTER TABLE "STUDIO" ADD PRIMARY KEY ("NAME") ENABLE
+/
+--------------------------------------------------------
+--  Ref Constraints for Table STUDIO
+--------------------------------------------------------
+
+ALTER TABLE "STUDIO" ADD FOREIGN KEY ("PRESNO")
+    REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
+/
+
+--------------------------------------------------------
+--  DDL for Table MOVIE
+--------------------------------------------------------
+
+CREATE TABLE "MOVIE"
+(	"TITLE" VARCHAR2(255),
+     "YEAR" NUMBER(*,0),
+     "LENGTH" NUMBER(*,0),
+     "INCOLOR" CHAR(1),
+     "STUDIONAME" VARCHAR2(30),
+     "PRODUCERNO" NUMBER(*,0),
+     "DIRECTORNO" NUMBER(*,0),
+     "SOUNDSTUDIO" VARCHAR2(30)
+)
+/
+--------------------------------------------------------
+--  DDL for Index SYS_C00233218
+--------------------------------------------------------
+
+CREATE UNIQUE INDEX "SYS_C00233218" ON "MOVIE" ("TITLE", "YEAR")
+/
+--------------------------------------------------------
+--  Constraints for Table MOVIE
+--------------------------------------------------------
+
+ALTER TABLE "MOVIE" ADD CONSTRAINT "MOV_CHK" CHECK (length > 50 and year > 1900 and year <= 2019) ENABLE
+/
+ALTER TABLE "MOVIE" ADD PRIMARY KEY ("TITLE", "YEAR") ENABLE
+/
+--------------------------------------------------------
+--  Ref Constraints for Table MOVIE
+--------------------------------------------------------
+
+ALTER TABLE "MOVIE" ADD FOREIGN KEY ("PRODUCERNO")
+    REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
+/
+ALTER TABLE "MOVIE" ADD FOREIGN KEY ("STUDIONAME")
+    REFERENCES "STUDIO" ("NAME") ON DELETE CASCADE ENABLE
+/
+ALTER TABLE "MOVIE" ADD FOREIGN KEY ("DIRECTORNO")
+    REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
+/
+ALTER TABLE "MOVIE" ADD FOREIGN KEY ("SOUNDSTUDIO")
+    REFERENCES "STUDIO" ("NAME") ON DELETE CASCADE ENABLE
+/
+
+--------------------------------------------------------
+--  DDL for Table STARSIN
+--------------------------------------------------------
+
+CREATE TABLE "STARSIN"
+(	"MOVIETITLE" VARCHAR2(255),
+     "MOVIEYEAR" NUMBER(*,0),
+     "STARNAME" VARCHAR2(30),
+     "GURANTEE" NUMBER(*,0)
+)
+/
+--------------------------------------------------------
+--  DDL for Index SYS_C00233221
+--------------------------------------------------------
+
+CREATE UNIQUE INDEX "SYS_C00233221" ON "STARSIN" ("MOVIETITLE", "MOVIEYEAR", "STARNAME")
+/
+--------------------------------------------------------
+--  Constraints for Table STARSIN
+--------------------------------------------------------
+
+ALTER TABLE "STARSIN" ADD PRIMARY KEY ("MOVIETITLE", "MOVIEYEAR", "STARNAME") ENABLE
+/
+ALTER TABLE "STARSIN" ADD CONSTRAINT "GUR_CHECK" CHECK (GURANTEE >= 10000) ENABLE
+/
+--------------------------------------------------------
+--  Ref Constraints for Table STARSIN
+--------------------------------------------------------
+
+ALTER TABLE "STARSIN" ADD FOREIGN KEY ("MOVIETITLE", "MOVIEYEAR")
+    REFERENCES "MOVIE" ("TITLE", "YEAR") ON DELETE CASCADE ENABLE
+/
+ALTER TABLE "STARSIN" ADD FOREIGN KEY ("STARNAME")
+    REFERENCES "MOVIESTAR" ("NAME") ON DELETE CASCADE ENABLE
+/
+
+--------------------------------------------------------
+--  DDL for Table CARTOON
+--------------------------------------------------------
+
+CREATE TABLE "CARTOON"
+(	"TITLE" VARCHAR2(255),
+     "YEAR" NUMBER(*,0),
+     "VOICE" VARCHAR2(30)
+)
+/
+
+ALTER TABLE "CARTOON" ADD FOREIGN KEY ("TITLE" , "YEAR")
+    REFERENCES "MOVIE" ("TITLE" , "YEAR") ON DELETE CASCADE ENABLE
+/
+ALTER TABLE "CARTOON" ADD PRIMARY KEY ("TITLE", "YEAR" , "VOICE") ENABLE
+/
+
+
+REM INSERTING into MOVIEEXEC
+SET DEFINE OFF;
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Phoebe Mcneil','Brazil',1,1125378,'Urielle Riddle','1969-06-21','male');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Fallon Santana','Israel',2,596679,'Bruce Gutierrez','1937-04-12','female');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Demetria Ayala','Cambodia',3,4486415,'Hadassah Wilkerson','1941-11-20','male');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Blaine Malone','Togo',4,3780914,'Kadeem Solomon','1969-06-21','male');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Lamar Leblanc','Kenya',5,4110449,'Alice Fischer','1945-02-21','male');
+
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Erica David','Djibouti',6,1903077,'Breanna Bender','1950-11-16','male');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Iona Leach','Ukraine',7,2836928,'Forrest Curtis','1953-04-17','male');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Freya Ross','Mexico',8,4518352,'Oleg Holcomb','1969-06-21','female');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Slade Norris','Eritrea',9,4013840,'Daryl Carney','1945-05-24','male');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Lance Kemp','Argentina',10,2307597,'Baxter Walker','1941-11-20','female');
+
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Channing Long','Senegal',11,5515504,'Paul Powers','1969-06-21','male');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Jeremy Dillard','Benin',12,504859,'Montana Payne','1981-07-22','female');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Brady George','Italy',13,4386121,'Solomon Peters','1963-04-27','female');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Quintessa Cooke','Grenada',14,9702764,'Marah Clarke','1958-07-21','female');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Thane Mejia','Bhutan',15,1514634,'Jada Duffy','1969-06-21','male');
+
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Helen Drake','Pakistan',16,5423203,'Fay Hogan','1941-03-19','male');
+INSERT INTO MOVIEEXEC (NAME,ADDRESS,CERTNO,NETWORTH,SPOUSENAME,BIRTHDATE,GENDER) VALUES ('Kirestin Ingram','Nauru',17,3395217,'Mollie Gutierrez','1965-02-04','male');
+
+REM INSERTING into MOVIESTAR
+SET DEFINE OFF;
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Urielle Riddle','Brazil','female','1969-06-21','Phoebe Mcneil');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Bruce Gutierrez','Israel','male','1970-02-12','Fallon Santana');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Hadassah Wilkerson','Cambodia','female','1969-05-26','Demetria Ayala');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Kadeem Solomon','Togo','female','1969-04-16','Blaine Malone');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Alice Fischer','Kenya','female','1941-03-19','Lamar Leblanc');
+
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Breanna Bender','Djibouti','female','1969-06-21','Erica David');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Forrest Curtis','Ukraine','female','1971-07-22','Iona Leach');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Oleg Holcomb','Mexico','male','1964-03-11','Freya Ross');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Daryl Carney','Eritrea','female','1956-12-13','Slade Norris');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Baxter Walker','Argentina','male','1965-03-10','Lance Kemp');
+
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Paul Powers','Senegal','female','1971-11-24','Channing Long');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Montana Payne','Benin','male','1973-04-12','Jeremy Dillard');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Solomon Peters','Italy','male','1966-11-12','Brady George');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Marah Clarke','Grenada','male','1972-06-26','Quintessa Cooke');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Jada Duffy','Bhutan','female','1969-06-21','Thane Mejia');
+
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Fay Hogan','Pakistan','female','1969-06-21','Helen Drake');
+INSERT INTO MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE,SPOUSENAME) VALUES ('Mollie Gutierrez','Nauru','female','1969-06-21','Kirestin Ingram');
+
+
 --------------------------------------------------------
 --  Ref Constraints for Table MOVIEEXEC
 --------------------------------------------------------
@@ -67,318 +248,197 @@ ALTER TABLE "MOVIEEXEC" ADD FOREIGN KEY ("SPOUSENAME")
 /
 
 --------------------------------------------------------
---  DDL for Table MOVIESTAR
---------------------------------------------------------
-
-  CREATE TABLE "MOVIESTAR" 
-   (	"NAME" VARCHAR2(30), 
-	"ADDRESS" VARCHAR2(255), 
-	"GENDER" CHAR(6), 
-	"BIRTHDATE" DATE,
-	"SPOUSENAME" VARCHAR2(30)
-   )
-/
-REM INSERTING into MOVIESTAR
-SET DEFINE OFF;
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('mark hamill','456 oak rd. brentwood','male  ',to_date('1945-09-13','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('harrison ford','wilson road jackson hole, wy','male  ',to_date('1942-06-13','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('박중훈','서울시 충무로 2가','male  ',to_date('1961-08-21','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('emilio estevez','450 malibu, new york','male  ',to_date('1962-01-03','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('dana carvey','부산시 남구 대연동','male  ',to_date('1965-11-09','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('mike meyers','Malibu, california','male  ',to_date('1951-03-02','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('carrie fisher','123 maple st., hollywood','female',to_date('1954-05-01','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('sigourney weaver','8942 w. b. beverly hills','female',to_date('1949-10-08','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('carrie henn','new york','male  ',to_date('1942-01-12','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('karen allen','1776 broadway, ny','female',to_date('1951-10-05','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('rutger hauer','22-32 west cromwell road london, sw5 9qj','male  ',to_date('1944-01-23','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('sean young','louisville, kentucky','female',to_date('1959-11-20','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('meryl streep','summit st., malibu, new jersey','female',to_date('1949-06-22','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('robert redford','santa monica, California','male  ',to_date('1937-08-18','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('winona ryder','winona, minnesota','female',to_date('1971-10-29','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('ethan hawke','austin, texas','male  ',to_date('1970-11-06','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('paul newman','cleveland, ohio','male  ',to_date('1925-01-25','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('ryan o''neal','los angeles, california','male  ',to_date('1941-04-20','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('sandra bullock','washington st., California','female',to_date('1965-07-26','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('tommy lee jones','san saba, texas','male  ',to_date('1946-09-15','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('alec baldwin','massapequa, new york','male  ',to_date('1958-04-03','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('kim basinger','massapequa, new york','female',to_date('1953-12-08','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('debra winger','cleveland, ohio','female',to_date('1955-05-16','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('jack nicholson','neptune, new jersey','male  ',to_date('1937-04-22','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('danny devito','neptune nj','male  ',to_date('1944-11-17','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('john travolta','englewood, new jersey, usa','male  ',to_date('1954-02-18','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('gene hackman','san bernadino, california','male  ',to_date('1930-01-30','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('rene russo','burbank, california','female',to_date('1954-02-17','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('ben kingsley','scarborough, england, uk','male  ',to_date('1943-12-31','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('alfred molina','london, england, uk','female',to_date('1953-05-24','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('vivien leigh','darjeeling, india','female',to_date('1913-11-05','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('clark gable','cadiz, ohio','male  ',to_date('1901-02-01','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('richard gere','philadelphia, pennsylvania, usa','male  ',to_date('1949-08-31','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('julia roberts','smyrna, georgia, usa','female',to_date('1967-10-28','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('catherine zeta-jones','swansea, west glamorgan, wales, uk','female',to_date('1969-09-25','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('queen latifah','newark, new jersey, usa','female',to_date('1970-03-18','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('kate capshaw','792 fort worth bl., california, usa','female',to_date('1953-11-03','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('sean connery','edinburgh, midlothian, scotland, uk','male  ',to_date('1930-08-25','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('eileen brennan','1293, bay street, los angeles, california, USA','female',to_date('1932-09-03','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('audrey campbell','new york city, New York, USA','female',to_date('1929-08-05','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('melynda albrecht','grand circle bd, ohio, USA','male  ',to_date('1922-12-25','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('vera allik','paris, france','female',to_date('1935-01-20','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('johnny depp','Owensboro, Kentucky, USA','male',to_date('1963-06-09','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('rebecca hall','London, England, UK','female',to_date('1982-05-03','RRRR-MM-DD'));
-Insert into MOVIESTAR (NAME,ADDRESS,GENDER,BIRTHDATE) values ('morgan freeman','Memphis, Tennessee, USA','male',to_date('1937-06-01','RRRR-MM-DD'));
---------------------------------------------------------
---  DDL for Index SYS_C00233216
---------------------------------------------------------
-
-  CREATE UNIQUE INDEX "SYS_C00233216" ON "MOVIESTAR" ("NAME")
-/
---------------------------------------------------------
---  Constraints for Table MOVIESTAR
---------------------------------------------------------
-
-  ALTER TABLE "MOVIESTAR" ADD CONSTRAINT "SEX_CHK" CHECK (gender in ('male', 'female'))
-  /
- 
-  ALTER TABLE "MOVIESTAR" ADD PRIMARY KEY ("NAME")
-/
---------------------------------------------------------
 --  Ref Constraints for Table MOVIESTAR
 --------------------------------------------------------
 
 ALTER TABLE "MOVIESTAR" ADD FOREIGN KEY ("SPOUSENAME")
-    REFERENCES "MOVIEEXEC" ("NAME") ON DELETE SET NULL
+    REFERENCES "MOVIEEXEC" ("NAME")  ON DELETE SET NULL
 /
---------------------------------------------------------
---  DDL for Table STUDIO
---------------------------------------------------------
 
-  CREATE TABLE "STUDIO" 
-   (	"NAME" VARCHAR2(30), 
-	"ADDRESS" VARCHAR2(255), 
-	"PRESNO" NUMBER(*,0),
-	"EMPNO" NUMBER(*,0)
-   )
-/
+
 REM INSERTING into STUDIO
 SET DEFINE OFF;
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('fox','edinburgh, midlothian, scotland, uk',1);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('paramount','4101 nw urbandale drive, urbandale, ia 50322',2);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('disney','9750 airport blvd. los angeles, ca 90045',3);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('warner bros','8585 santa monica blvd. west hollywood, ca 90069',4);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('mgm','30 east 30th street new york, ny 10016',5);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('neue const film','167 rue de rome paris,  75017',17);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('touchstone pictures','22-32 west cromwell road london, sw5 9qj',7);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('dream box','부산시 남구 용호1동',11);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('new york film','catsle rock rd., california, usa',2);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('Cold spring','부산시 남구 대연3동',21);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('new cinema','경상북도 포항시 북구',18);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('wild character','stoneridge rd., pleasanton, ca, usa',16);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('columbia','Anchorage, Alaska, USA',6);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('Amblin Entertainment', 'Universal City, California, usa', 25);
-Insert into STUDIO (NAME,ADDRESS,PRESNO) values ('Marvel Studios', '500 S. Buena Vista Street, Burbank, California, Usa', 26);
---------------------------------------------------------
---  DDL for Index SYS_C00233213
---------------------------------------------------------
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('Nam Corporation','Ap #886-5079 Nonummy St.',3,254);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('Orci LLC','Ap #758-5792 Accumsan Avenue',15,298);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('Fox','804-7591 Mauris Rd.',8,138);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('Placerat Cras Dictum LLP','2135 Risus Av.',4,138);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('Diam Nunc PC','960-7221 Eleifend. Av.',16,126);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('A Mi Corporation','585-7622 Neque Ave',11,140);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('Nullam Feugiat Institute','P.O. Box 277, 3002 Lorem Rd.',9,250);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('At Velit Associates','P.O. Box 123, 1748 Elit. St.',2,216);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('Vitae Risus Industries','6115 Integer Street',7,243);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('In Tincidunt Congue Inc.','Ap #701-6824 Facilisis Rd.',5,151);
+INSERT INTO STUDIO (NAME,ADDRESS,PRESNO,EMPNO) VALUES ('At Egestas A Company','P.O. Box 443, 824 Sit Ave',1,256);
 
-  CREATE UNIQUE INDEX "SYS_C00233213" ON "STUDIO" ("NAME");
-/
---------------------------------------------------------
---  Constraints for Table STUDIO
---------------------------------------------------------
 
-  ALTER TABLE "STUDIO" ADD PRIMARY KEY ("NAME") ENABLE
-/
---------------------------------------------------------
---  Ref Constraints for Table STUDIO
---------------------------------------------------------
-
-  ALTER TABLE "STUDIO" ADD FOREIGN KEY ("PRESNO")
-	  REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
-/
-
---------------------------------------------------------
---  DDL for Table MOVIE
---------------------------------------------------------
-
-  CREATE TABLE "MOVIE" 
-   (	"TITLE" VARCHAR2(255), 
-	"YEAR" NUMBER(*,0), 
-	"LENGTH" NUMBER(*,0), 
-	"INCOLOR" CHAR(1), 
-	"STUDIONAME" VARCHAR2(30), 
-	"PRODUCERNO" NUMBER(*,0),
-	"DIRECTORNO" NUMBER(*,0),
-	"SOUNDSTUDIO" VARCHAR2(30)
-   )
-/
 REM INSERTING into MOVIE
 SET DEFINE OFF;
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('mighty ducks',1991,274,'t','disney',25);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('pretty woman',1990,119,'t','disney',8);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('wayne''s world',1992,95,'t','paramount',3);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('star wars',1977,124,'t','fox',9);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('star wars',1980,124,'t','fox',9);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('star wars',1983,131,'t','fox',9);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('ztar warz',2019,180,'t','fox',9);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('aliens',1986,137,'t','fox',1);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('raiders of the lost ark',1981,115,'t','paramount',9);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('blade runner',1982,117,'t','warner bros',4);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('out of africa',1985,150,'t','mgm',11);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('house of the spirits',1993,140,'t','neue const film',6);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('reality bites',1994,99,'t','mgm',5);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('butch cassidy and the sundance kid',1969,110,'t','fox',1);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('sting',1973,129,'t','mgm',12);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('up close and personal',1996,124,'t','touchstone pictures',7);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('love story',1970,99,'t','paramount',3);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('a woman in Love',1970,88,'t','new york film',20);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('speed',1994,115,'t','fox',10);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('coal miner''s daughter',1980,222,'t','mgm',5);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('getaway',1994,115,'t','fox',8);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('terms of endearment',1983,232,'t','paramount',13);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('l.a. confidential',1997,136,'t','warner bros',14);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('get shorty',1995,105,'t','mgm',15);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('species',1995,108,'t','mgm',16);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('gone with the wind',1939,222,'t','fox',2);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('aliens',1996,137,'t','fox',3);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('fool''s running',2000,107,'t','mgm',11);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('Chicago',2002,113,'t','disney',24);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('indiana jones and the temple of doom',1984,118,'t','paramount',9);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('indiana jones and the last crusade',1989,127,'t','paramount',9);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('The Amazing Spider-Man 2',2014,142,'t','columbia',3);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('Captain America: The Winter Soldier',2014,136,'t','mgm',1);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('Ready Player One',2018,140,'t','Amblin Entertainment',25);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('Avengers: Infinity War',2018,149,'t','Marvel Studios',24);
-Insert into MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO) values ('blade runner',2017,149,'t','Amblin Entertainment',26);
---------------------------------------------------------
---  DDL for Index SYS_C00233218
---------------------------------------------------------
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Avengers : EndGame','2019',181,'t','Nam Corporation',11,3,'At Egestas A Company');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Aquaman','1992',157,'t','Orci LLC',7,10,'In Tincidunt Congue Inc.');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Professor and the Madman','1992',141,'t','Fox',3,14,'Vitae Risus Industries');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Dark Phoenix','1996',122,'t','Diam Nunc PC',2,1,'At Velit Associates');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Upside','1994',186,'t','Diam Nunc PC',4,8,'Orci LLC');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Alita: Battle Angel','2011',145,'t','A Mi Corporation',16,17,'Fox');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Greta','2014',193,'t','Placerat Cras Dictum LLP',17,7,'At Velit Associates');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('To All the Boys I''ve Loved Before','1986',82,'t','Orci LLC',8,16,'At Velit Associates');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Doctor Strange','2005',186,'t','Diam Nunc PC',2,17,'At Velit Associates');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Polaroid','1990',112,'t','At Velit Associates',12,14,'Nullam Feugiat Institute');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The First Purge','2006',134,'t','A Mi Corporation',9,6,'At Egestas A Company');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Kid Who Would Be King','1991',109,'t','Fox',9,2,'Placerat Cras Dictum LLP');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Aladdin','2013',113,'t','In Tincidunt Congue Inc.',15,6,'Orci LLC');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Guardians of the Galaxy Vol. 2','1982',160,'t','Nam Corporation',7,11,'Fox');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('X-Men: Apocalypse','1995',106,'t','Nam Corporation',5,1,'Nullam Feugiat Institute');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Ant-Man','2006',175,'t','At Egestas A Company',7,5,'Diam Nunc PC');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Equalizer','1990',164,'t','Placerat Cras Dictum LLP',3,4,'At Velit Associates');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Mission: Impossible - Fallout','2000',120,'t','In Tincidunt Congue Inc.',9,3,'At Egestas A Company');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Blade Runner 2049','1997',197,'t','A Mi Corporation',5,2,'Nullam Feugiat Institute');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Favourite','2003',156,'t','Vitae Risus Industries',13,17,'At Velit Associates');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Insurgent','1996',106,'t','Fox',5,15,'At Egestas A Company');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Lord of the Rings: The Two Towers','1990',172,'t','Orci LLC',12,2,'Placerat Cras Dictum LLP');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Get Out','2005',126,'t','Nullam Feugiat Institute',1,10,'At Velit Associates');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Rampage','2008',122,'t','Diam Nunc PC',9,10,'Vitae Risus Industries');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Police Academy 2: Their First Assignment','1999',129,'t','Nam Corporation',1,6,'Fox');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Escobar: Paradise Lost','2012',154,'t','Placerat Cras Dictum LLP',6,16,'In Tincidunt Congue Inc.');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Terminator 2: Judgment Day','1999',86,'t','Vitae Risus Industries',2,11,'Orci LLC');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Brightburn','1997',126,'t','Nullam Feugiat Institute',6,4,'Nam Corporation');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Booksmart','2012',131,'t','Diam Nunc PC',2,15,'Placerat Cras Dictum LLP');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Se7en','1992',160,'t','Fox',1,9,'Vitae Risus Industries');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Cold Pursuit','1991',133,'t','At Velit Associates',8,12,'At Egestas A Company');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Purge: Anarchy','1993',89,'t','Placerat Cras Dictum LLP',14,8,'Diam Nunc PC');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Jurassic World: Fallen Kingdom','1990',187,'t','At Velit Associates',6,11,'Nullam Feugiat Institute');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Silence','1993',182,'t','At Egestas A Company',5,4,'Placerat Cras Dictum LLP');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Trainspotting','1994',157,'t','A Mi Corporation',4,9,'At Velit Associates');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('The Nun','1994',143,'t','In Tincidunt Congue Inc.',2,7,'Fox');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Ocean''s Eight','1991',157,'t','Nam Corporation',17,5,'Orci LLC');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Little Mermaid','2017',117,'t','Placerat Cras Dictum LLP',1,9,'Orci LLC');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Harry Potter and the Order of the Phoenix','1996',102,'t','Orci LLC',14,7,'Placerat Cras Dictum LLP');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('We Have Always Lived in the Castle','1998',148,'t','Nullam Feugiat Institute',1,5,'At Velit Associates');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Fall in Love at First Kiss','2008',80,'t','Fox',4,8,'Diam Nunc PC');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Dumbo','2011',99,'t','Nam Corporation',11,1,'Diam Nunc PC');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Star Wars','2018',110,'t','Placerat Cras Dictum LLP',11,3,'Nullam Feugiat Institute');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Cars','2018',90,'t','At Velit Associates',12,14,'Placerat Cras Dictum LLP');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Troy','2016',163,'t','Fox',3,12,'In Tincidunt Congue Inc.');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('My Neighbor Totoro','2008',120,'t','At Egestas A Company',15,16,'Placerat Cras Dictum LLP');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Inside Out','2009',175,'t','Nam Corporation',12,12,'Placerat Cras Dictum LLP');
+INSERT INTO MOVIE (TITLE,YEAR,LENGTH,INCOLOR,STUDIONAME,PRODUCERNO,DIRECTORNO,SOUNDSTUDIO) VALUES ('Deadpool 2','2018',161,'t','At Egestas A Company',16,15,'Diam Nunc PC');
 
-  CREATE UNIQUE INDEX "SYS_C00233218" ON "MOVIE" ("TITLE", "YEAR")
-/
---------------------------------------------------------
---  Constraints for Table MOVIE
---------------------------------------------------------
-
-  ALTER TABLE "MOVIE" ADD CONSTRAINT "MOV_CHK" CHECK (length > 50 and year > 1900 and year <= 2019) ENABLE
- /
-  ALTER TABLE "MOVIE" ADD PRIMARY KEY ("TITLE", "YEAR") ENABLE
-/
---------------------------------------------------------
---  Ref Constraints for Table MOVIE
---------------------------------------------------------
-
-  ALTER TABLE "MOVIE" ADD FOREIGN KEY ("PRODUCERNO")
-	  REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
- /
-  ALTER TABLE "MOVIE" ADD FOREIGN KEY ("STUDIONAME")
-	  REFERENCES "STUDIO" ("NAME") ON DELETE CASCADE ENABLE
-/
-  ALTER TABLE "MOVIE" ADD FOREIGN KEY ("DIRECTORNO")
-      REFERENCES "MOVIEEXEC" ("CERTNO") ON DELETE CASCADE ENABLE
-/
-  ALTER TABLE "MOVIE" ADD FOREIGN KEY ("SOUNDSTUDIO")
-      REFERENCES "STUDIO" ("NAME") ON DELETE CASCADE ENABLE
-/
-
---------------------------------------------------------
---  DDL for Table STARSIN
---------------------------------------------------------
-
-  CREATE TABLE "STARSIN" 
-   (	"MOVIETITLE" VARCHAR2(255), 
-	"MOVIEYEAR" NUMBER(*,0), 
-	"STARNAME" VARCHAR2(30),
-	"GURANTEE" NUMBER(*,0)
-   )
-/
 REM INSERTING into STARSIN
 SET DEFINE OFF;
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) values ('Chicago',2002,'catherine zeta-jones',50000);
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) values ('Chicago',2002,'queen latifah',99999);
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('Chicago',2002,'richard gere');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('a woman in Love',1970,'audrey campbell');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('a woman in Love',1970,'melynda albrecht');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('a woman in Love',1970,'vera allik');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('aliens',1986,'carrie henn');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('aliens',1986,'sigourney weaver');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('aliens',1996,'sigourney weaver');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('blade runner',1982,'harrison ford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('blade runner',1982,'rutger hauer');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('blade runner',1982,'sean young');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('butch cassidy and the sundance kid',1969,'clark gable');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('butch cassidy and the sundance kid',1969,'paul newman');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('butch cassidy and the sundance kid',1969,'robert redford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('coal miner''s daughter',1980,'eileen brennan');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('coal miner''s daughter',1980,'tommy lee jones');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('fool''s running',2000,'gene hackman');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('fool''s running',2000,'robert redford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('fool''s running',2000,'tommy lee jones');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('get shorty',1995,'danny devito');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('get shorty',1995,'gene hackman');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('get shorty',1995,'john travolta');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('get shorty',1995,'rene russo');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('getaway',1994,'alec baldwin');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('getaway',1994,'kim basinger');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('gone with the wind',1939,'clark gable');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('gone with the wind',1939,'vivien leigh');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('house of the spirits',1993,'meryl streep');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('house of the spirits',1993,'winona ryder');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('indiana jones and the last crusade',1989,'harrison ford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('indiana jones and the last crusade',1989,'sean connery');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('indiana jones and the temple of doom',1984,'harrison ford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('indiana jones and the temple of doom',1984,'kate capshaw');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('l.a. confidential',1997,'danny devito');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('l.a. confidential',1997,'kim basinger');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('love story',1970,'ryan o''neal');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('love story',1970,'tommy lee jones');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('mighty ducks',1991,'emilio estevez');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('out of africa',1985,'meryl streep');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('out of africa',1985,'robert redford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('pretty woman',1990,'julia roberts');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('pretty woman',1990,'richard gere');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('raiders of the lost ark',1981,'harrison ford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('raiders of the lost ark',1981,'karen allen');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('reality bites',1994,'ethan hawke');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('reality bites',1994,'winona ryder');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('species',1995,'alfred molina');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('species',1995,'ben kingsley');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('speed',1994,'sandra bullock');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('star wars',1977,'carrie fisher');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('star wars',1977,'harrison ford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('star wars',1977,'mark hamill');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('sting',1973,'eileen brennan');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('sting',1973,'paul newman');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('sting',1973,'robert redford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('terms of endearment',1983,'danny devito');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('terms of endearment',1983,'debra winger');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('terms of endearment',1983,'jack nicholson');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('up close and personal',1996,'clark gable');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('up close and personal',1996,'robert redford');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('wayne''s world',1992,'dana carvey');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('wayne''s world',1992,'mike meyers');
-Insert into STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME) values ('The Amazing Spider-Man 2', 2014, 'rebecca hall');
---------------------------------------------------------
---  DDL for Index SYS_C00233221
---------------------------------------------------------
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Avengers : EndGame','2019','Urielle Riddle',770928);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Avengers : EndGame','2019','Bruce Gutierrez',2016339);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Avengers : EndGame','2019','Hadassah Wilkerson',3600178);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Avengers : EndGame','2019','Mollie Gutierrez',3226129);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Avengers : EndGame','2019','Forrest Curtis',1578359);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Aquaman','1992','Bruce Gutierrez',1712947);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Aquaman','1992','Alice Fischer',4055053);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Professor and the Madman','1992','Forrest Curtis',1590223);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Professor and the Madman','1992','Oleg Holcomb',2564269);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Professor and the Madman','1992','Mollie Gutierrez',2943511);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Dark Phoenix','1996','Fay Hogan',653345);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Dark Phoenix','1996','Hadassah Wilkerson',276972);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Upside','1994','Oleg Holcomb',1558510);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Upside','1994','Solomon Peters',4961710);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Alita: Battle Angel','2011','Fay Hogan',973696);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Alita: Battle Angel','2011','Mollie Gutierrez',489851);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Alita: Battle Angel','2011','Jada Duffy',4568769);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Greta','2014','Bruce Gutierrez',4874177);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('To All the Boys I''ve Loved Before','1986','Solomon Peters',1578765);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Doctor Strange','2005','Kadeem Solomon',4729901);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Doctor Strange','2005','Jada Duffy',1732077);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Polaroid','1990','Alice Fischer',4845493);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The First Purge','2006','Jada Duffy',4695850);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Kid Who Would Be King','1991','Fay Hogan',3129752);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Kid Who Would Be King','1991','Paul Powers',4645931);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Kid Who Would Be King','1991','Kadeem Solomon',1645931);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Aladdin','2013','Marah Clarke',1773580);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Aladdin','2013','Hadassah Wilkerson',346434);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Aladdin','2013','Mollie Gutierrez',3824330);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Guardians of the Galaxy Vol. 2','1982','Solomon Peters',4454807);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Guardians of the Galaxy Vol. 2','1982','Breanna Bender',833253);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('X-Men: Apocalypse','1995','Fay Hogan',3009162);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('X-Men: Apocalypse','1995','Bruce Gutierrez',4535193);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('X-Men: Apocalypse','1995','Paul Powers',306552);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Ant-Man','2006','Breanna Bender',4708927);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Ant-Man','2006','Paul Powers',4282130);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Ant-Man','2006','Bruce Gutierrez',1595405);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Ant-Man','2006','Forrest Curtis',4872082);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Equalizer','1990','Daryl Carney',1887884);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Equalizer','1990','Hadassah Wilkerson',4840619);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Equalizer','1990','Breanna Bender',466963);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Mission: Impossible - Fallout','2000','Oleg Holcomb',1891352);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Mission: Impossible - Fallout','2000','Forrest Curtis',3258228);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Mission: Impossible - Fallout','2000','Bruce Gutierrez',3851154);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Mission: Impossible - Fallout','2000','Montana Payne',2167231);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Mission: Impossible - Fallout','2000','Paul Powers',4362453);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Blade Runner 2049','1997','Fay Hogan',497426);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Blade Runner 2049','1997','Kadeem Solomon',1375723);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Blade Runner 2049','1997','Alice Fischer',2991719);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Blade Runner 2049','1997','Hadassah Wilkerson',3726555);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Favourite','2003','Montana Payne',10303);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Favourite','2003','Bruce Gutierrez',4948497);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Favourite','2003','Jada Duffy',2041325);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Favourite','2003','Hadassah Wilkerson',4051441);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Insurgent','1996','Breanna Bender',319689);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Insurgent','1996','Solomon Peters',1307174);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Insurgent','1996','Hadassah Wilkerson',4301732);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Lord of the Rings: The Two Towers','1990','Alice Fischer',755342);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Lord of the Rings: The Two Towers','1990','Hadassah Wilkerson',754942);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Lord of the Rings: The Two Towers','1990','Kadeem Solomon',4897244);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Get Out','2005','Forrest Curtis',3325905);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Get Out','2005','Oleg Holcomb',1262637);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Rampage','2008','Urielle Riddle',2198804);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Police Academy 2: Their First Assignment','1999','Kadeem Solomon',4344031);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Police Academy 2: Their First Assignment','1999','Alice Fischer',977412);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Police Academy 2: Their First Assignment','1999','Paul Powers',4446759);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Police Academy 2: Their First Assignment','1999','Hadassah Wilkerson',394638);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Escobar: Paradise Lost','2012','Bruce Gutierrez',3823216);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Escobar: Paradise Lost','2012','Daryl Carney',3379261);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Escobar: Paradise Lost','2012','Marah Clarke',1555286);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Terminator 2: Judgment Day','1999','Breanna Bender',1458413);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Terminator 2: Judgment Day','1999','Daryl Carney',1926372);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Terminator 2: Judgment Day','1999','Hadassah Wilkerson',2823226);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Brightburn','1997','Kadeem Solomon',4607101);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Booksmart','2012','Marah Clarke',4957110);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Se7en','1992','Bruce Gutierrez',3087128);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Se7en','1992','Kadeem Solomon',1422742);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Se7en','1992','Alice Fischer',4377374);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Cold Pursuit','1991','Fay Hogan',229732);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Cold Pursuit','1991','Oleg Holcomb',116150);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Cold Pursuit','1991','Kadeem Solomon',2093344);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Purge: Anarchy','1993','Daryl Carney',1929662);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Purge: Anarchy','1993','Alice Fischer',4297951);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Jurassic World: Fallen Kingdom','1990','Breanna Bender',3242589);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Jurassic World: Fallen Kingdom','1990','Alice Fischer',3364564);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Silence','1993','Daryl Carney',459094);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Silence','1993','Bruce Gutierrez',1472921);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Silence','1993','Breanna Bender',569619);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Trainspotting','1994','Daryl Carney',4422390);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Nun','1994','Oleg Holcomb',1350577);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('The Nun','1994','Daryl Carney',82064);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Ocean''s Eight','1991','Oleg Holcomb',2452532);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Ocean''s Eight','1991','Breanna Bender',1109633);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Ocean''s Eight','1991','Hadassah Wilkerson',4462429);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Ocean''s Eight','1991','Daryl Carney',556751);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Harry Potter and the Order of the Phoenix','1996','Daryl Carney',878629);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Harry Potter and the Order of the Phoenix','1996','Oleg Holcomb',1812899);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('We Have Always Lived in the Castle','1998','Bruce Gutierrez',4633245);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('We Have Always Lived in the Castle','1998','Oleg Holcomb',2886089);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Fall in Love at First Kiss','2008','Daryl Carney',737184);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Fall in Love at First Kiss','2008','Marah Clarke',3770015);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Fall in Love at First Kiss','2008','Urielle Riddle',5483247);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Dumbo','2011','Urielle Riddle',1793590);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Dumbo','2011','Breanna Bender',4284035);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Dumbo','2011','Kadeem Solomon',3584619);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Star Wars','2018','Urielle Riddle',2356754);
+INSERT INTO STARSIN (MOVIETITLE,MOVIEYEAR,STARNAME,GURANTEE) VALUES ('Star Wars','2018','Mollie Gutierrez',7861375);
 
-  CREATE UNIQUE INDEX "SYS_C00233221" ON "STARSIN" ("MOVIETITLE", "MOVIEYEAR", "STARNAME")
-/
---------------------------------------------------------
---  Constraints for Table STARSIN
---------------------------------------------------------
+REM INSERTING into CARTOON
+SET DEFINE OFF;
+INSERT INTO CARTOON(TITLE, YEAR, VOICE) VALUES ('Little Mermaid','2017','Channing Long');
+INSERT INTO CARTOON(TITLE, YEAR, VOICE) VALUES ('Little Mermaid','2017','Jeremy Dillard');
+INSERT INTO CARTOON(TITLE, YEAR, VOICE) VALUES ('Little Mermaid','2017','Brady George');
+INSERT INTO CARTOON(TITLE, YEAR, VOICE) VALUES ('Little Mermaid','2017','Quintessa Cooke');
+INSERT INTO CARTOON(TITLE, YEAR, VOICE) VALUES ('Little Mermaid','2017','Thane Mejia');
 
-  ALTER TABLE "STARSIN" ADD PRIMARY KEY ("MOVIETITLE", "MOVIEYEAR", "STARNAME") ENABLE
-/
-  ALTER TABLE "STARSIN" ADD CONSTRAINT "GUR_CHECK" CHECK (GURANTEE >= 10000) ENABLE
-/
---------------------------------------------------------
---  Ref Constraints for Table STARSIN
---------------------------------------------------------
-
-  ALTER TABLE "STARSIN" ADD FOREIGN KEY ("MOVIETITLE", "MOVIEYEAR")
-	  REFERENCES "MOVIE" ("TITLE", "YEAR") ON DELETE CASCADE ENABLE
- /
-  ALTER TABLE "STARSIN" ADD FOREIGN KEY ("STARNAME")
-	  REFERENCES "MOVIESTAR" ("NAME") ON DELETE CASCADE ENABLE
-/
 commit;
 quit;
